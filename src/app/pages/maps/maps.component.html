@@ -1,0 +1,20 @@
+<!-- <div class="main-content"> -->
+  <app-navbar [nav_title]="title" [nav_value]="info"></app-navbar>
+  <div class="container">
+    <!-- <h2 style="position: relative; bottom: 55px; width: fit-content;">List of Enterprises: <span class="text-light">{{enterprises.length}} active enterprises</span></h2> -->
+    <div class="row">
+      <div class="col-sm-4 col-md-4 col-lg-3 col-xl-3 mt-3" *ngFor="let enterprise of enterprises">
+        <div class="card text-center d-flex align-items-center justify-content-center" style="height : 12rem;">
+          <img *ngIf="enterprise.PathPicture" src={{enterprise.PathPicture}} class="card-img-top"
+            style="border-radius: 50%; width: 100px; height: 100px;" alt="...">
+          <img *ngIf="!enterprise.PathPicture" src="../../../assets/img/image_2024_03_18T09_00_44_691Z.png"
+            class="card-img-top" style="border-radius: 50%; width: 100px; height: 100px;" alt="...">
+          <div class="card-body" style="overflow: hidden;">
+            <h5 class="card-title">{{enterprise.CompanyName}}</h5>
+            <p class="card-text" style="position: relative; bottom: 10px;">{{enterprise.Industry}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </div> -->
