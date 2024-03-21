@@ -7,7 +7,7 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 })
 export class EnterpriseDataService {
 
-  public base_url = "http://hutopia-enterpriseapi.myviva.net:81/api";
+  public base_url = "https://hutopia-api.myviva.net/api";
 
   constructor(private http: HttpClient) { }
 
