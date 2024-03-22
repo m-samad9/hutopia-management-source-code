@@ -6,7 +6,8 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class ValueDataService {
-  private base_url = "http://hutopia-managementapi.myviva.net:82/api";
+  // private base_url = "http://hutopia-managementapi.myviva.net:82/api";
+  private base_url = "https://hutopia-api-managment.myviva.net/api";
 
   constructor(private http: HttpClient) { }
 
