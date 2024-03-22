@@ -1,3 +1,11 @@
+<style>
+  .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #1E2040;
+    border-color: #1E2040;
+  }
+</style>
 <div class="header pb-8 pt-5 pt-md-8" style="background-color: #228CDB;">
   <div class="container-fluid">
     <div class="header-body">
@@ -98,13 +106,13 @@
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <button class="btn btn-secondary ml-5 mr-5">Roles</button>
-          <button class="btn btn-secondary ml-5 mr-5">Skills</button>
-          <button class="btn btn-secondary ml-5 mr-5">Company Class</button>
-          <button class="btn btn-secondary ml-5 mr-5">Perks</button>
-          <button class="btn btn-secondary ml-5 mr-5">Sector</button>
-          <button class="btn btn-secondary ml-5 mr-5">Language</button>
-          <button class="btn btn-secondary ml-5 mr-5">Benefits</button>
+          <button class="btn btn-secondary ml-5 mr-5" #roles id="144" (click)="getValuesByTypeId(roles.id, 1, 10)">Roles</button>
+          <button class="btn btn-secondary ml-5 mr-5" #skills id="138" (click)="getValuesByTypeId(skills.id, 1, 10)">Skills</button>
+          <button class="btn btn-secondary ml-5 mr-5" #company_class id="135" (click)="getValuesByTypeId(company_class.id, 1, 10)">Company Class</button>
+          <button class="btn btn-secondary ml-5 mr-5" #perks id="141" (click)="getValuesByTypeId(perks.id, 1, 10)">Perks</button>
+          <button class="btn btn-secondary ml-5 mr-5" #sector id="103" (click)="getValuesByTypeId(sector.id, 1, 10)">Sector</button>
+          <button class="btn btn-secondary ml-5 mr-5" #language id="118" (click)="getValuesByTypeId(language.id, 1, 10)">Language</button>
+          <button class="btn btn-secondary ml-5 mr-5" #benefits id="136" (click)="getValuesByTypeId(benefits.id, 1, 10)">Benefits</button>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -119,7 +127,39 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let val of values">
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <!-- <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                      <img alt="Image placeholder" src="assets/img/theme/bootstrap.jpg">
+                    </a> -->
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">{{val.value}}</span>
+                    </div>
+                  </div>
+                </th>
+                <td>
+                  <span class="badge badge-dot">
+                    <i class="bg-success"></i> active
+                  </span>
+                </td>
+                <td>{{val.createdAt | date:"yyyy-MM-dd"}}</td>
+                <td>admin</td>
+                <td></td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                      <a class="dropdown-item" href="javascript:void(0)">Edit</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Hold</a>
+                      <a class="dropdown-item" href="javascript:void(0)">Delete</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- <tr>
                 <th scope="row">
                   <div class="media align-items-center">
                     <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
@@ -342,35 +382,64 @@
                   </div>
                 </td>
                 <td></td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>
-        <!-- <div class="card-footer py-4">
+        <div class="card-footer py-4" *ngIf="values !== null">
           <nav aria-label="...">
             <ul class="pagination justify-content-end mb-0">
-              <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" tabindex="-1">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
+              <li class="page-item">
+                <a class="page-link" *ngIf="values[0].numberOfValues <= page_limit">
+                  <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a class="page-link"
+                   *ngIf="values[0].numberOfValues > page_limit"
+                   (click)="getValuesByTypeId(current_type, 1, page_limit)">
+                  <i class="fas fa-angle-double-left"></i>
                 </a>
               </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0)">1</a>
+              <li class="page-item">
+                <a class="page-link" *ngIf="values[0].numberOfValues <= page_limit">
+                  <i class="fas fa-angle-left"></i>
+                </a>
+                <a class="page-link"
+                   *ngIf="values[0].numberOfValues > page_limit"
+                   (click)="getValuesByTypeId(current_type, current_page_number - 1, page_limit)">
+                  <i class="fas fa-angle-left"></i>
+                </a>
+              </li>
+              <li class="page-item" *ngFor="let i of loop_array">
+                <a class="page-link" (click)="getValuesByTypeId(current_type, i, page_limit)">{{i}}</a>
               </li>
               <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">
+                <a class="page-link" *ngIf="values[0].numberOfValues <= page_limit">
                   <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
+                </a>
+                <a class="page-link"
+                   *ngIf="values[0].numberOfValues > page_limit"
+                   (click)="getValuesByTypeId(current_type, current_page_number + 1, page_limit)">
+                  <i class="fas fa-angle-right"></i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" *ngIf="values[0].numberOfValues <= page_limit">
+                  <i class="fas fa-angle-double-right"></i>
+                </a>
+                <a class="page-link" 
+                   *ngIf="(values[0].numberOfValues % page_limit) === 0 && values[0].numberOfValues > page_limit"
+                   (click)="getValuesByTypeId(current_type, values[0].numberOfValues / page_limit, page_limit)">
+                  <i class="fas fa-angle-double-right"></i>
+                </a>
+                <a class="page-link"
+                   *ngIf="(values[0].numberOfValues % page_limit) !== 0 && values[0].numberOfValues > page_limit"
+                   (click)="getValuesByTypeId(current_type, (values[0].numberOfValues / page_limit) + 1, page_limit)">
+                  <i class="fas fa-angle-double-right"></i>
                 </a>
               </li>
             </ul>
           </nav>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
