@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 
@@ -11,9 +11,10 @@ export class UserDataService {
   constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.base_url}/enterprise/getRandomUsers`).pipe(
+    let http_auth_option = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem("auth_token")}` });
+    return this.http.get<any>(`${this.base_url}/enterprise/getRandomUsers`, { headers: http_auth_option }).pipe(
       tap(_ => console.log("Success")),
       catchError(_ => throwError(() => new Error('Failed to fetch users')))
-    )
+    );
   }
 }

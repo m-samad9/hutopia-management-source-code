@@ -45,4 +45,11 @@ export class NavbarComponent implements OnInit {
   //   this.search_result = this.enterprises.filter(enterprise => enterprise.CompanyName.toLowerCase().includes(this.search_text.toLowerCase()));
   // }
 
+  logout(): void {
+    console.log(localStorage.getItem("auth_token"));
+    localStorage.clear();
+    console.log(localStorage.getItem("auth_token"));
+    this.router.navigate(["/login"]);
+  }
+
 }
